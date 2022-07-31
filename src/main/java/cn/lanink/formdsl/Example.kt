@@ -4,7 +4,6 @@ import cn.lanink.formdsl.dsl.*
 import cn.nukkit.Player
 import cn.nukkit.form.element.ElementButtonImageData
 import cn.nukkit.form.response.FormResponseData
-import javax.swing.ImageIcon
 
 fun exampleSimple(player: Player) {
     FormSimple {
@@ -84,7 +83,12 @@ fun exampleCustom(player: Player) {
 
         StepSlider(MyResp::stepSliderResp) {
             text = "StepSlider1"
-            step("A", "B", "C" to true)  // C 是默认值
+            option {
+                - "A"
+                - "B"
+                + "C"  // 默认
+                - "D"
+            }
         }
 
         onElementRespond {

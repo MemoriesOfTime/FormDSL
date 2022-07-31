@@ -99,13 +99,45 @@ fun <T> ElementDropdown.option(vararg options: T) {
     }
 }
 
-fun <T> ElementStepSlider.step(vararg steps: T) {
-    for (step in steps) {
-        if (step is String) {
-            this.addStep(step, false)
+class OptionList(val options: MutableList<String> = mutableListOf(), var default: String? = null) {
+
+    // - "xxx" 添加一个 option
+    operator fun String.unaryMinus() {
+        options.add(this)
+    }
+
+    // + "xxx"  默认
+    operator fun String.unaryPlus() {
+        default = this
+        options.add(this)
+    }
+}
+
+fun ElementDropdown.option(init: (@FormDslMarker OptionList).() -> Unit) {
+    OptionList().apply {
+        init()
+        options.forEach {
+            this@option.addOption(it, it == default)
         }
-        if (step is Pair<*, *>) {
-            this.addStep(step.first as String, step.second as Boolean)
+    }
+}
+
+fun <T> ElementStepSlider.option(vararg options: T) {
+    for (option in options) {
+        if (option is String) {
+            this.addStep(option, false)
+        }
+        if (option is Pair<*, *>) {
+            this.addStep(option.first as String, option.second as Boolean)
+        }
+    }
+}
+
+fun ElementStepSlider.option(init: (@FormDslMarker OptionList).() -> Unit) {
+    OptionList().apply {
+        init()
+        options.forEach {
+            this@option.addStep(it, it == default)
         }
     }
 }

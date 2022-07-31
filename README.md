@@ -93,7 +93,12 @@ FormCustom<MyResp> {  // 传入构造的类的泛型即可
 
     StepSlider(MyResp::stepSliderResp) {
         text = "StepSlider1"
-        step("A", "B", "C" to true)  // C 是默认值
+        option {
+           - "A"
+           - "B"
+           + "C"  // 默认
+           - "D"
+        }
     }
 
     onElementRespond {
