@@ -4,6 +4,7 @@ import cn.lanink.formdsl.dsl.*
 import cn.nukkit.Player
 import cn.nukkit.form.element.ElementButtonImageData
 import cn.nukkit.form.response.FormResponseData
+import javax.swing.ImageIcon
 
 fun exampleSimple(player: Player) {
     FormSimple {

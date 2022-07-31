@@ -2,8 +2,6 @@
 package cn.lanink.formdsl.dsl
 
 import cn.lanink.gamecore.form.element.ResponseElementButton
-import cn.lanink.gamecore.form.windows.AdvancedFormWindowCustom
-import cn.lanink.gamecore.form.windows.AdvancedFormWindowSimple
 import cn.nukkit.Player
 import cn.nukkit.form.element.ElementButton
 import cn.nukkit.form.element.ElementButtonImageData
@@ -16,47 +14,51 @@ import cn.nukkit.form.element.ElementToggle
 import cn.nukkit.form.response.FormResponseData
 import kotlin.reflect.KMutableProperty1
 
+@DslMarker
+@Target(AnnotationTarget.TYPE, AnnotationTarget.CLASS)
+annotation class FormDslMarker
 
-inline fun AdvancedFormWindowSimple.Button(init: (@ElementDslMarker ResponseElementButton).() -> Unit) {
+inline fun AdvancedFormWindowSimpleAdapter.Button(init: (@FormDslMarker ResponseElementButton).() -> Unit) {
     this.addButton(ResponseElementButton("Button").apply(init))
 }
 
-inline fun AdvancedFormWindowSimple.Button(icon: ElementButtonImageData, init: (@ElementDslMarker ResponseElementButton).() -> Unit) {
+inline fun AdvancedFormWindowSimpleAdapter.Button(icon: ElementButtonImageData, init: (@FormDslMarker ResponseElementButton).() -> Unit) {
     this.addButton(ResponseElementButton("Button", icon).apply(init))
 }
 
-inline fun AdvancedFormWindowSimple.Button(text: String, init: (@ElementDslMarker ResponseElementButton).() -> Unit) {
+inline fun AdvancedFormWindowSimpleAdapter.Button(text: String, init: (@FormDslMarker ResponseElementButton).() -> Unit) {
     this.addButton(ResponseElementButton(text).apply(init))
 }
 
-inline fun AdvancedFormWindowSimple.Button(text: String, icon: ElementButtonImageData, init: (@ElementDslMarker ResponseElementButton).() -> Unit) {
+inline fun AdvancedFormWindowSimpleAdapter.Button(text: String, icon: ElementButtonImageData, init: (@FormDslMarker ResponseElementButton).() -> Unit) {
     this.addButton(ResponseElementButton(text, icon).apply(init))
 }
 
-inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Dropdown(bind: KMutableProperty1<T, FormResponseData>, init: (@ElementDslMarker ElementDropdown).() -> Unit) {
+inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Dropdown(bind: KMutableProperty1<T, FormResponseData>, init: (@FormDslMarker ElementDropdown).() -> Unit) {
     this.bindDropdown(ElementDropdown("").apply(init), bind)
 }
 
-inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Input(bind: KMutableProperty1<T, String>, init: (@ElementDslMarker ElementInput).() -> Unit) {
+inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Input(bind: KMutableProperty1<T, String>, init: (@FormDslMarker ElementInput).() -> Unit) {
     this.bindInput(ElementInput("").apply(init), bind)
 }
 
-inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Toggle(bind: KMutableProperty1<T, Boolean>, init: (@ElementDslMarker ElementToggle).() -> Unit) {
+inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Toggle(bind: KMutableProperty1<T, Boolean>, init: (@FormDslMarker ElementToggle).() -> Unit) {
     this.bindToggle(ElementToggle("").apply(init), bind)
 }
 
-fun AdvancedFormWindowCustom.Label(text: String) {
+fun <T> AdvancedFormWindowCustomAdapter<T>.Label(text: String) {
     this.addElement(ElementLabel(text))
 }
 
-inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Slider(bind: KMutableProperty1<T, Float>, init: (@ElementDslMarker ElementSlider).() -> Unit) {
+inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.Slider(bind: KMutableProperty1<T, Float>, init: (@FormDslMarker ElementSlider).() -> Unit) {
     this.bindSlider(ElementSlider("", 0F, 10F, 1).apply(init), bind)
 }
 
-inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.StepSlider(bind: KMutableProperty1<T, FormResponseData>, init: (@ElementDslMarker ElementStepSlider).() -> Unit) {
+inline fun <T : FormCustomResponseModel> AdvancedFormWindowCustomAdapter<T>.StepSlider(bind: KMutableProperty1<T, FormResponseData>, init: (@FormDslMarker ElementStepSlider).() -> Unit) {
     this.bindStepSlider(ElementStepSlider("").apply(init), bind)
 }
 
+// 统一默认值字段名称
 var ElementToggle.default: Boolean
     get() = this.isDefaultValue
     set(value) {
@@ -76,11 +78,11 @@ var ElementSlider.default: Float
     }
 
 
-fun ResponseElementButton.onPlayerClick(click: (@PlayerDslMarker Player).() -> Unit) {
+fun ResponseElementButton.onPlayerClick(click: (@FormDslMarker Player).() -> Unit) {
     this.onClicked(click)
 }
 
-inline fun ElementButton.icon(init: ElementButtonImageData.() -> Unit) {
+inline fun ElementButton.icon(init: (@FormDslMarker ElementButtonImageData).() -> Unit) {
     val icon = ElementButtonImageData("", "")
     init(icon)
     this.addImage(icon)
