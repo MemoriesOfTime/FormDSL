@@ -1,0 +1,5 @@
+name: FormDSL
+main: cn.lanink.formdsl.ModuleMain
+author: iGxnon
+depend:
+  - "FullKotlinLib"
