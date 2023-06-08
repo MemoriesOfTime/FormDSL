@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED")
+@file:Suppress("UNUSED", "FunctionName")
 package cn.lanink.formdsl.dsl
 
 import cn.lanink.gamecore.form.element.ResponseElementButton

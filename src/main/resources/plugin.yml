@@ -1,19 +1,13 @@
 name: FormDSL
-version: 1.0.0-SNAPSHOT
+version: 1.0.1-SNAPSHOT
 main: cn.lanink.formdsl.PluginMain
 api: [1.0.11]
-description: supoort dsl operation in kotlin to build Form UI
+description: support dsl operation in kotlin to build Form UI
 author: iGxnon
 softdepend:
   - "FullKotlinLib"
 depend:
   - "MemoriesOfTime-GameCore"
-
-commands:
-  formtest:
-    description: Test
-    permission: formdsl.ftest
-    usage: /formtest [type]
 
 permissions:
   formdsl.ftest:
